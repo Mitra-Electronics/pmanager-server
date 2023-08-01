@@ -1,0 +1,117 @@
+[
+    {
+        "name": "Australia",
+        "dial_code": "+61",
+        "code": "AU"
+    },
+    {
+        "name": "Afghanistan",
+        "dial_code": "+93",
+        "code": "AF"
+    },
+    {
+        "name": "Bangladesh",
+        "dial_code": "+880",
+        "code": "BD"
+    },
+    {
+        "name": "Bhutan",
+        "dial_code": "+975",
+        "code": "BT"
+    },
+    {
+        "name": "Brazil",
+        "dial_code": "+55",
+        "code": "BR"
+    },
+    {
+        "name": "Ethiopia",
+        "dial_code": "+251",
+        "code": "ET"
+    },
+    {
+        "name": "France",
+        "dial_code": "+33",
+        "code": "FR"
+    },
+    {
+        "name": "Germany",
+        "dial_code": "+49",
+        "code": "DE"
+    },
+    {
+        "name": "India",
+        "dial_code": "+91",
+        "code": "IN"
+    },
+    {
+        "name": "Italy",
+        "dial_code": "+39",
+        "code": "IT"
+    },
+    {
+        "name": "Malaysia",
+        "dial_code": "+60",
+        "code": "MY"
+    },
+    {
+        "name": "Maldives",
+        "dial_code": "+960",
+        "code": "MV"
+    },
+    {
+        "name": "Myanmar",
+        "dial_code": "+95",
+        "code": "MM"
+    },
+    {
+        "name": "Nepal",
+        "dial_code": "+977",
+        "code": "NP"
+    },
+    {
+        "name": "Pakistan",
+        "dial_code": "+92",
+        "code": "PK"
+    },
+    {
+        "name": "Poland",
+        "dial_code": "+48",
+        "code": "PL"
+    },
+    {
+        "name": "Singapore",
+        "dial_code": "+65",
+        "code": "SG"
+    },
+    {
+        "name": "South Africa",
+        "dial_code": "+27",
+        "code": "ZA"
+    },
+    {
+        "name": "Spain",
+        "dial_code": "+34",
+        "code": "ES"
+    },
+    {
+        "name": "Sri Lanka",
+        "dial_code": "+94",
+        "code": "LK"
+    },
+    {
+        "name": "Thailand",
+        "dial_code": "+66",
+        "code": "TH"
+    },
+    {
+        "name": "United States",
+        "dial_code": "+1",
+        "code": "US"
+    },
+    {
+        "name": "United Kingdom",
+        "dial_code": "+44",
+        "code": "GB"
+    }
+]
