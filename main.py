@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import People
 from sqlmodel import Session, select, delete, SQLModel
+from schemas import People
 from drivers.db import engine
 
 app = FastAPI()
