@@ -7,4 +7,3 @@ BASE_DIR = Path(__file__).parent.parent
 CONNSTR = f"sqlite:///{BASE_DIR/ 'db.db'}"
 
 engine = create_engine(CONNSTR, echo=True)
-SQLModel.metadata.create_all(engine)

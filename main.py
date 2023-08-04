@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import People
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, select, delete, SQLModel
 from drivers.db import engine
 
 app = FastAPI()
@@ -14,6 +14,10 @@ app.add_middleware(
 )
 session = Session(engine)
 
+@app.on_event("startup")
+def start():
+    SQLModel.metadata.create_all(engine)
+
 @app.on_event("shutdown")
 def shut():
     session.close()
@@ -22,7 +26,7 @@ def shut():
 def add_person(c: People):
     session.add(c)
     session.commit()
-    return {"success":True}
+    return {"success":True, "result":c.id}
 
 @app.get("/get")
 def get_all():
@@ -47,4 +51,4 @@ def delete_person(id: int):
     statement = delete(People).where(People.id == id)
     r = session.exec(statement)
     session.commit()
-    return r
+    return {"success":True}

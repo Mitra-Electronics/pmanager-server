@@ -15,7 +15,7 @@ class People(SQLModel, table=True):
     last_name: str
     email: EmailStr
     phone: str
-    country: countries
+    country: str
     birthday: PastDate
     label: str
     twitter: str
