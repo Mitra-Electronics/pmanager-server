@@ -59,7 +59,17 @@ def edit_person(id: int, update: People):
     results = session.exec(statement)
     person: People = results.one()
 
-    person = update
+    person.first_name = update.first_name
+    person.last_name = update.last_name
+    person.email = update.email
+    person.birthday = update.birthday
+    person.phone = update.phone
+    person.github = update.github
+    person.img = update.img
+    person.instagram = update.instagram
+    person.twitter = update.twitter
+    person.country = update.country
+    person.label = update.label
 
     session.add(person)
     session.commit()
