@@ -1,4 +1,4 @@
-from pydantic import EmailStr, PastDate
+from pydantic import EmailStr, PastDate, HttpUrl
 from typing import Optional, Literal
 
 from sqlmodel import Field, SQLModel
@@ -15,14 +15,15 @@ class People(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     first_name: str
     last_name: str
-    email: EmailStr
-    phone: str
-    country: str
-    birthday: PastDate
-    label: str
-    twitter: str
-    instagram: str = Field(..., max_length=30)
-    github: str
+    email: Optional[EmailStr]
+    phone: Optional[str] = Field(None, max_length=15, min_length=10)
+    country: Optional[str] = Field(None, max_length=20)
+    birthday: Optional[PastDate]
+    label: Optional[str] = Field(None, max_length=40)
+    twitter: Optional[str] = Field(None, max_length=15, min_length=4)
+    instagram: Optional[str] = Field(None, max_length=30, min_length=1)
+    github: Optional[str] = Field(None, max_length=39, min_length=1)
+    img: Optional[HttpUrl]
 
     class Config:
         schema_extra = {

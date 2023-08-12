@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select, delete, SQLModel
 from schemas import People
 from drivers.db import engine
+from drivers.cloudinaryd import upload_img, delete_img
 
 app = FastAPI()
 app.add_middleware(
@@ -52,9 +53,33 @@ def get_person(id: int):
     return {"success": True, "result": res}
 
 
+@app.post("/edit")
+def edit_person(id: int, update: People):
+    statement = select(People).where(People.id == id)
+    results = session.exec(statement)
+    person: People = results.one()
+
+    person = update
+
+    session.add(person)
+    session.commit()
+    return {"success": True}
+
+
 @app.post("/delete")
-def delete_person(id: int):
+def delete_person(id: int, background_tasks: BackgroundTasks):
+    statement = select(People).where(People.id == id)
+    results = session.exec(statement)
+    person: People = results.one()
+    img = person.img
     statement = delete(People).where(People.id == id)
     session.exec(statement)
     session.commit()
+    background_tasks.add_task(delete_img, img)
     return {"success": True}
+
+
+@app.post("/upload")
+def upload_file(file: UploadFile):
+    url = upload_img(file.file)
+    return {"success": True, "url": url}
