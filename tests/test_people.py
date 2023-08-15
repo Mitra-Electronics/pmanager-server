@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import SQLModel, Session, create_engine
-from drivers.db import get_session
-from main import app
+from src.drivers.db import get_session
+from src.main import app
 import os
 from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
