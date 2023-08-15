@@ -40,9 +40,10 @@ def edit_person(
     update: People,
     session: Session = Depends(get_session)
 ):
-    statement = select(People).where(People.id == id)
-    results = session.exec(statement)
-    person: People = results.one()
+    person: People | None = db_get_person(session, id)
+
+    if person is None:
+        return {"success": False, "reason": "Does not exist"}
 
     person_data = update.dict(exclude_unset=True)
     for key, value in person_data.items():
@@ -59,9 +60,9 @@ def delete_person(
         background_tasks: BackgroundTasks,
         session: Session = Depends(get_session)
 ):
-    statement = select(People).where(People.id == id)
-    results = session.exec(statement)
-    person: People = results.one()
+    person: People | None = db_get_person(session, id)
+    if person is None:
+        return {"success": False, "reason": "Does not exist"}
     img = person.img
     statement = delete(People).where(People.id == id)
     session.exec(statement)  # type: ignore

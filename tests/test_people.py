@@ -87,7 +87,66 @@ def test_get_one_not_found(client: TestClient):
     assert data["reason"] == "Does not exist"
 
 
-def test_database_delete():
+def test_edit_exists(client: TestClient):
+    resp = client.post(
+        "/edit", params={"id": 1},
+        json={"first_name": "Hello", "last_name": "World"})
+    data = resp.json()
+
+    print(data)
+    assert resp.status_code == 200
+    assert data["success"] is True
+
+    check_resp = client.get("/get/id", params={"id": 1})
+    checkdata = check_resp.json()
+    assert check_resp.status_code == 200
+    assert checkdata["success"] is True
+    assert checkdata["result"] is not False
+    assert type(checkdata["result"]) is dict
+    assert checkdata["result"]["first_name"] == "Hello"
+    assert checkdata["result"]["last_name"] == "World"
+    assert checkdata["result"]["id"] == 1
+    items = checkdata["result"].items()
+    assert len(items) == 12
+    for k, v in items:
+        if k != "first_name" and k != "last_name" and k != "id":
+            assert v is None
+
+
+def test_edit_doesnt_exist(client: TestClient):
+    resp = client.post(
+        "/edit", params={"id": 2},
+        json={"first_name": "Dreadpool", "last_name": "Wilson"}
+    )
+    data = resp.json()
+
+    assert resp.status_code == 200
+    assert data["success"] is False
+    assert data["reason"] == "Does not exist"
+
+
+def test_delete_exists(client: TestClient):
+    resp = client.post("/delete", params={"id": 1})
+    data = resp.json()
+
+    assert resp.status_code == 200
+    assert data["success"] is True
+    check_resp = client.get("/get/id", params={"id": 1})
+    checkdata = check_resp.json()
+    assert check_resp.status_code == 200
+    assert checkdata["success"] is False
+    assert checkdata["reason"] == "Does not exist"
+
+
+def test_delete_doesnt_exist(client: TestClient):
+    resp = client.post("/delete", params={"id": 2})
+    data = resp.json()
+    assert resp.status_code == 200
+    assert data["success"] is False
+    assert data["reason"] == "Does not exist"
+
+
+def test_database_remove():
     assert os.path.exists(BASE_DIR / "test.db")
     os.remove("test.db")
     assert not os.path.exists(BASE_DIR / "test.db")
