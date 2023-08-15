@@ -1,4 +1,4 @@
-from pydantic import EmailStr, PastDate, HttpUrl
+from pydantic import BaseModel, EmailStr, PastDate, HttpUrl
 from typing import Optional, Literal
 
 from sqlmodel import Field, SQLModel
@@ -42,3 +42,16 @@ class People(SQLModel, table=True):
                 }
             ]
         }
+
+
+class Login(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class User(SQLModel, table=True):
+    first_name: str = Field(..., max_length=30, min_length=1)
+    last_name: str = Field(..., max_length=30, min_length=1)
+    email: EmailStr
+    hashed_password: str
+    country: str
