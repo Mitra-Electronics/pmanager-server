@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, UploadFile, BackgroundTasks
 from sqlmodel import Session, select, delete
-from drivers.cloudinaryd import upload_img, delete_img
-from drivers.db import get_session
-from people.crud import db_get_person
+from ..drivers.cloudinaryd import upload_img, delete_img
+from ..drivers.db import get_session
+from .crud import db_get_person
 
 from models import People
 

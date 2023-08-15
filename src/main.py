@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from drivers.db import engine
+from .drivers.db import engine
 from sqlmodel import SQLModel
-from models import People, User  # noqa
-from people.router import router as prouter
+from .models import People, User  # noqa
+from .people.router import router as prouter
 
 app = FastAPI()
 app.add_middleware(

@@ -1,5 +1,5 @@
 from sqlmodel import select, Session
-from models import People
+from ..models import People
 
 
 def db_get_person(session: Session, id_: int):

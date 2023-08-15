@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
-from auth.crud import get_user
-from drivers.db import get_session
-from models import Login
+from .crud import get_user
+from ..drivers.db import get_session
+from ..models import Login
 
 router = APIRouter(tags=["Auth"])
 
