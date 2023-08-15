@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from drivers.db import engine
 from sqlmodel import SQLModel
-from models import People # noqa
+from models import People, User  # noqa
 from people.router import router as prouter
 
 app = FastAPI()
@@ -19,3 +19,8 @@ app.include_router(router=prouter)
 @app.on_event("startup")
 def start():
     SQLModel.metadata.create_all(engine)
+
+
+@app.get("/")
+def status():
+    return {"status": "ok"}

@@ -50,6 +50,7 @@ class Login(BaseModel):
 
 
 class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
     first_name: str = Field(..., max_length=30, min_length=1)
     last_name: str = Field(..., max_length=30, min_length=1)
     email: EmailStr

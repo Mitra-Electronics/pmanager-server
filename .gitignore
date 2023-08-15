@@ -3,5 +3,6 @@
 run.bat
 db.db
 db.sqlite
+.pytest_cache
 .git
 __pycache__
