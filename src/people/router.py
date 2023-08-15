@@ -4,7 +4,7 @@ from ..drivers.cloudinaryd import upload_img, delete_img
 from ..drivers.db import get_session
 from .crud import db_get_person
 
-from models import People
+from ..models import People
 
 router = APIRouter(tags=["People"])
 
