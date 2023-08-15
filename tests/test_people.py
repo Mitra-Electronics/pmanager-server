@@ -38,7 +38,7 @@ def test_add_person(client: TestClient):
 
     assert response.status_code == 200
     assert data["success"] is True
-    assert type(data["result"]) is int
+    assert isinstance(data["result"], int)
     assert data["result"] == 1
 
 
@@ -50,8 +50,8 @@ def test_get_all(client: TestClient):
     assert data["success"] is True
     assert data["result"] is not False
     assert len(data["result"]) == 1
-    assert type(data["result"]) is list
-    assert type(data["result"][0]) is dict
+    assert isinstance(data["result"], list)
+    assert isinstance(data["result"][0], dict)
     assert data["result"][0]["first_name"] == "Deadpond"
     assert data["result"][0]["last_name"] == "Wilson"
     assert data["result"][0]["id"] == 1
@@ -68,7 +68,7 @@ def test_get_one_found(client: TestClient):
     assert resp.status_code == 200
     assert data["success"] is True
     assert data["result"] is not False
-    assert type(data["result"]) is dict
+    assert isinstance(data["result"], dict)
     assert data["result"]["first_name"] == "Deadpond"
     assert data["result"]["last_name"] == "Wilson"
     assert data["result"]["id"] == 1
@@ -102,7 +102,7 @@ def test_edit_exists(client: TestClient):
     assert check_resp.status_code == 200
     assert checkdata["success"] is True
     assert checkdata["result"] is not False
-    assert type(checkdata["result"]) is dict
+    assert isinstance(checkdata["result"], dict)
     assert checkdata["result"]["first_name"] == "Hello"
     assert checkdata["result"]["last_name"] == "World"
     assert checkdata["result"]["id"] == 1
