@@ -29,3 +29,4 @@ def get_current_user(token: str, session: Session):
     user = get_user(session, email)
     if user is None:
         raise credentials_exception
+    return user
