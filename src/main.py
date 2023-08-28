@@ -4,6 +4,7 @@ from .drivers.db import engine
 from sqlmodel import SQLModel
 from .models import People, User  # noqa
 from .people.router import router as prouter
+from .auth.router import router as arouter
 
 app = FastAPI()
 app.add_middleware(
@@ -14,6 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(router=prouter)
+app.include_router(router=arouter)
 
 
 @app.on_event("startup")

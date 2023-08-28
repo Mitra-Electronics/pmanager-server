@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from fastapi import HTTPException, status
 
 from jose import JWTError, jwt
-from envd import get_env
+from ..drivers.envd import get_env
 
 SECRET_KEY = get_env("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -27,5 +27,6 @@ def decode_access_token(token: str):
         email: str = payload.get("email")  # type: ignore
         if email is None:
             raise credentials_exception
+        return email
     except JWTError:
         raise credentials_exception

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, UploadFile, BackgroundTasks
 from sqlmodel import Session, select, delete
 from ..drivers.cloudinaryd import upload_img, delete_img
 from ..drivers.db import get_session
-from .crud import db_get_person
+from .crud import db_get_person, db_add_person
 
 from ..models import People
 
@@ -11,8 +11,7 @@ router = APIRouter(tags=["People"])
 
 @router.post("/add")
 def add_person(c: People, session: Session = Depends(get_session)):
-    session.add(c)
-    session.commit()
+    db_add_person(session, c)
     return {"success": True, "result": c.id}
 
 
