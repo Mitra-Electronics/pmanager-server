@@ -19,9 +19,7 @@ def add_person(c: People, session: Session = Depends(get_session)):
 def get_all(session: Session = Depends(get_session)):
     statement = select(People)
     results = session.exec(statement).fetchall()
-    res = []
-    for person in results:
-        res.append(person.dict())
+    res = [x.dict() for x in results]
     return {"success": True, "result": res}
 
 
