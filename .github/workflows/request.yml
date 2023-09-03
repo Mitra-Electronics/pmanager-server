@@ -6,7 +6,7 @@ on:
     - cron: "*/5 * * * *"
 
 jobs:
-  mypy:
+  request:
     runs-on: ubuntu-latest
     steps:
       - name: Request
