@@ -3,7 +3,7 @@ name: Request
 on: 
     push:
     schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/13 * * * *"
 
 jobs:
   request:
