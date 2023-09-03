@@ -1,4 +1,4 @@
-name: Lint with mypy
+name: Request
 
 on: 
     push:
