@@ -1,0 +1,10 @@
+.venv
+.env
+.github
+run.bat
+db.db
+db.sqlite
+.pytest_cache
+.git
+.vscode
+__pycache__
