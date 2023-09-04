@@ -1,7 +1,6 @@
 name: Request
 
 on: 
-    push:
     schedule:
     - cron: "*/13 * * * *"
 
