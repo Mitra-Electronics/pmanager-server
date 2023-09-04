@@ -15,6 +15,7 @@ class People(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     first_name: str
     last_name: str
+    user_id: int
     email: Optional[EmailStr]
     phone: Optional[str] = Field(None, max_length=15, min_length=10)
     country: Optional[str] = Field(None, max_length=20)
