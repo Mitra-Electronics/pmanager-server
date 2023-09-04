@@ -13,3 +13,8 @@ jobs:
         with:
             url: https://mstudents.onrender.com/
             method: GET
+      - name: Request
+        uses: satak/webrequest-action@master
+        with:
+            url: https://pmanager-server.onrender.com/
+            method: GET
