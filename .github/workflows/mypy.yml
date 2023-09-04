@@ -14,7 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Install requirements
-        run: pip install -r requirements.txt
+        run: |
+            pip install --upgrade pip
+            pip install poetry
+            poetry install --group dev
+            poetry run pip freeze > requirements.txt
+            pip install -r requirements.txt
+            pip install .
       - name: Install mypy
         run: pip install mypy
       - name: Run mypy
