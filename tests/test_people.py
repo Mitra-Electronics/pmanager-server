@@ -2,10 +2,12 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import SQLModel, Session, create_engine
 from src.drivers.db import get_session
+from src.people.router import oauth2_scheme
 from src.main import app
 import os
 from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
+EXCLUDED_FIELDS = ["first_name", "last_name", "id", "user_id"]
 
 
 @pytest.fixture(name="session")  # type: ignore
@@ -23,9 +25,20 @@ def client_fixture(session: Session):
     def get_session_override():
         return session
 
-    app.dependency_overrides[get_session] = get_session_override
-
     client = TestClient(app)
+    app.dependency_overrides[get_session] = get_session_override
+    response = client.post(
+        "/login/",
+        json={
+            "email": "user@example.com",
+            "password": "123"
+        }
+    ).json()
+
+    def get_res():
+        return response["result"]
+    app.dependency_overrides[oauth2_scheme] = get_res
+
     yield client
     app.dependency_overrides.clear()
 
@@ -56,9 +69,9 @@ def test_get_all(client: TestClient):
     assert data["result"][0]["last_name"] == "Wilson"
     assert data["result"][0]["id"] == 1
     items = data["result"][0].items()
-    assert len(items) == 12
+    assert len(items) == 13
     for k, v in items:
-        if k != "first_name" and k != "last_name" and k != "id":
+        if k not in EXCLUDED_FIELDS:
             assert v is None
 
 
@@ -73,9 +86,9 @@ def test_get_one_found(client: TestClient):
     assert data["result"]["last_name"] == "Wilson"
     assert data["result"]["id"] == 1
     items = data["result"].items()
-    assert len(items) == 12
+    assert len(items) == 13
     for k, v in items:
-        if k != "first_name" and k != "last_name" and k != "id":
+        if k not in EXCLUDED_FIELDS:
             assert v is None
 
 
@@ -107,9 +120,9 @@ def test_edit_exists(client: TestClient):
     assert checkdata["result"]["last_name"] == "World"
     assert checkdata["result"]["id"] == 1
     items = checkdata["result"].items()
-    assert len(items) == 12
+    assert len(items) == 13
     for k, v in items:
-        if k != "first_name" and k != "last_name" and k != "id":
+        if k not in EXCLUDED_FIELDS:
             assert v is None
 
 

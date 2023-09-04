@@ -23,8 +23,8 @@ def add_person(
     session: Session = Depends(get_session)
 ):
     user = get_current_user(token, session)
-    db_add_person(session, c, user.id)
-    return {"success": True, "result": c.id}
+    cx = db_add_person(session, c, user.id)
+    return {"success": True, "result": cx.id}
 
 
 @router.get("/get")
@@ -40,8 +40,13 @@ def get_all(
 
 
 @router.get("/get/id")
-def get_person(id: int, session: Session = Depends(get_session)):
-    results = db_get_person(session, id)
+def get_person(
+    id: int,
+    token: Annotated[str, Depends(oauth2_scheme)],
+    session: Session = Depends(get_session)
+):
+    user = get_current_user(token, session)
+    results = db_get_person(session, id, user.id)  # type: ignore
     if results:
         return {"success": True, "result": results}
     return {"success": False, "reason": "Does not exist"}
@@ -50,15 +55,21 @@ def get_person(id: int, session: Session = Depends(get_session)):
 @router.post("/edit")
 def edit_person(
     id: int,
-    update: People,
+    update: PeopleSchema,
+    token: Annotated[str, Depends(oauth2_scheme)],
     session: Session = Depends(get_session)
 ):
-    person = db_get_person(session, id)
+    user = get_current_user(token, session)
+    person = db_get_person(session, id, user.id)  # type: ignore
 
     if person is None:
         return {"success": False, "reason": "Does not exist"}
 
     person_data = update.dict(exclude_unset=True)
+    try:
+        person_data.pop("id")
+    except KeyError:
+        pass
     for key, value in person_data.items():
         setattr(person, key, value)
 
@@ -70,10 +81,12 @@ def edit_person(
 @router.post("/delete")
 def delete_person(
         id: int,
+        token: Annotated[str, Depends(oauth2_scheme)],
         background_tasks: BackgroundTasks,
         session: Session = Depends(get_session)
 ):
-    person = db_get_person(session, id)
+    user = get_current_user(token, session)
+    person = db_get_person(session, id, user.id)  # type: ignore
     if person is None:
         return {"success": False, "reason": "Does not exist"}
     img = person.img
