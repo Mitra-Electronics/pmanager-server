@@ -7,7 +7,5 @@ COPY . .
 RUN pip3 install --upgrade pip poetry
 RUN python3 -m poetry install
 RUN python3 -m poetry add uvicorn[standard]
-#It will expose the FastAPI application on port `8000` inside the container
-EXPOSE 8000
 #It is the command that will start and run the FastAPI application container
 CMD ["python3", "-m","poetry", "run","uvicorn", "src.main:app", "--host", "0.0.0.0","--port","80"]
