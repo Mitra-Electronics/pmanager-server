@@ -6,4 +6,5 @@ db.sqlite
 .pytest_cache
 .git
 .vscode
+test.db
 __pycache__
