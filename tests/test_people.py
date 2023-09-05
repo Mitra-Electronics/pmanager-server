@@ -4,7 +4,6 @@ from sqlmodel import SQLModel, Session, create_engine
 from src.drivers.db import get_session
 from src.people.router import oauth2_scheme
 from src.main import app
-import os
 from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 EXCLUDED_FIELDS = ["first_name", "last_name", "id", "user_id"]
@@ -157,9 +156,3 @@ def test_delete_doesnt_exist(client: TestClient):
     assert resp.status_code == 200
     assert data["success"] is False
     assert data["reason"] == "Does not exist"
-
-
-def test_database_remove():
-    assert os.path.exists(BASE_DIR / "test.db")
-    os.remove("test.db")
-    assert not os.path.exists(BASE_DIR / "test.db")
