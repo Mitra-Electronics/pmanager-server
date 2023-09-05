@@ -3,8 +3,7 @@ name: Pytest
 on: [push, pull_request]
 
 jobs:
-  build:
-
+  test:
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
@@ -33,6 +32,7 @@ jobs:
         run: |
           poetry run pytest
   deploy:
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
