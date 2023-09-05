@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import Annotated
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Session
-from .crud import get_user, create_user
+from .crud import create_user, user_auth
 from ..drivers.db import get_session
-from .pwd import verify_password
 from .jwtd import create_access_token
 from ..models import Login
 from .schemas import UserInsert
@@ -12,17 +13,21 @@ router = APIRouter(tags=["Auth"])
 
 @router.post("/login")
 def login(login: Login, session: Session = Depends(get_session)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    user = get_user(session, login.email)
-    if user is None:
-        raise credentials_exception
-    if not verify_password(login.password, user.hashed_password):
-        raise credentials_exception
+    user_auth(session, login.email, login.password)
     return {"success": True, "result": create_access_token(login.email)}
+
+
+@router.post("/token")
+def token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: Session = Depends(get_session)
+):
+    user_auth(session, form_data.username, form_data.password)
+
+    return {
+        "access_token": create_access_token(form_data.username),
+        "token_type": "bearer"
+    }
 
 
 @router.post("/register")
