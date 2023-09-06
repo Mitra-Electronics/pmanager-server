@@ -80,10 +80,10 @@ def edit_person(
 
 @router.post("/delete")
 def delete_person(
-        id: int,
-        token: Annotated[str, Depends(oauth2_scheme)],
-        background_tasks: BackgroundTasks,
-        session: Session = Depends(get_session)
+    id: int,
+    token: Annotated[str, Depends(oauth2_scheme)],
+    background_tasks: BackgroundTasks,
+    session: Session = Depends(get_session)
 ):
     user = get_current_user(token, session)
     person = db_get_person(session, id, user.id)  # type: ignore
