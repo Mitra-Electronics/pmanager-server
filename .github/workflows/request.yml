@@ -2,7 +2,7 @@ name: Request
 
 on: 
     schedule:
-    - cron: "*/14 * * * *"
+    - cron: "*/14 8-23 * * *"
 
 jobs:
   request:
